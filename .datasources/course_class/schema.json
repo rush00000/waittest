@@ -1,0 +1,68 @@
+
+{
+  "name": "course_class",
+  "title": "课程班级",
+  "schemas": [
+    {
+      "name": "name",
+      "title": "课程名称",
+      "type": "String"
+    },
+    {
+      "name": "category",
+      "title": "课程分类",
+      "type": "String"
+    },
+    {
+      "name": "price",
+      "title": "课程价格",
+      "type": "Number"
+    },
+    {
+      "name": "duration",
+      "title": "总课时",
+      "type": "String"
+    },
+    {
+      "name": "image",
+      "title": "课程封面图",
+      "type": "Image"
+    },
+    {
+      "name": "description",
+      "title": "课程描述",
+      "type": "MultiLineString"
+    },
+    {
+      "name": "teacher",
+      "title": "授课老师",
+      "type": "String"
+    },
+    {
+      "name": "students",
+      "title": "当前报名人数",
+      "type": "Number"
+    },
+    {
+      "name": "maxStudents",
+      "title": "最大人数限制",
+      "type": "Number"
+    },
+    {
+      "name": "level",
+      "title": "难度等级",
+      "type": "String"
+    },
+    {
+      "name": "schedule",
+      "title": "上课时间安排",
+      "type": "String"
+    },
+    {
+      "name": "location",
+      "title": "上课地点",
+      "type": "String"
+    }
+  ]
+}
+  

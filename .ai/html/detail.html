@@ -1,0 +1,238 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>班级详情</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #f8fafc;
+    }
+    .safe-area-bottom {
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- 顶部导航 -->
+  <header class="bg-white shadow-sm sticky top-0 z-10">
+    <div class="max-w-md mx-auto px-4 py-3 flex items-center">
+      <button onclick="history.back()" class="mr-4">
+        <i class="fas fa-arrow-left text-xl"></i>
+      </button>
+      <h1 class="text-lg font-semibold">班级详情</h1>
+    </div>
+  </header>
+
+  <!-- 主要内容 -->
+  <main class="max-w-md mx-auto pb-20">
+    <!-- 班级图片 -->
+    <div class="relative">
+      <img id="classImage" src="" alt="" class="w-full h-64 object-cover">
+      <div class="absolute top-4 left-4">
+        <span class="bg-orange-500 text-white px-3 py-1 rounded-full text-sm">热门</span>
+      </div>
+    </div>
+
+    <!-- 基本信息 -->
+    <div class="bg-white p-4">
+      <h1 id="className" class="text-2xl font-bold text-gray-800 mb-2"></h1>
+      <p id="classDescription" class="text-gray-600 mb-4"></p>
+      
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <span class="text-3xl font-bold text-orange-500">¥<span id="classPrice"></span></span>
+          <span class="text-gray-500 text-sm ml-2">/期</span>
+        </div>
+        <div class="text-right">
+          <div class="text-sm text-gray-500">剩余名额</div>
+          <div class="text-lg font-semibold"><span id="remainingSeats"></span>人</div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-3 gap-4 text-center py-4 border-t border-b">
+        <div>
+          <div class="text-cyan-500 font-bold" id="classDuration"></div>
+          <div class="text-sm text-gray-500">总课时</div>
+        </div>
+        <div>
+          <div class="text-cyan-500 font-bold" id="classTeacher"></div>
+          <div class="text-sm text-gray-500">授课老师</div>
+        </div>
+        <div>
+          <div class="text-cyan-500 font-bold" id="classLevel"></div>
+          <div class="text-sm text-gray-500">适合年龄</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 课程安排 -->
+    <div class="bg-white mt-4 p-4">
+      <h2 class="text-lg font-semibold mb-3">课程安排</h2>
+      <div class="space-y-3">
+        <div class="flex items-center">
+          <i class="fas fa-calendar-alt text-cyan-500 w-5"></i>
+          <span class="ml-3">每周六、周日 14:00-16:00</span>
+        </div>
+        <div class="flex items-center">
+          <i class="fas fa-map-marker-alt text-cyan-500 w-5"></i>
+          <span class="ml-3">A栋教学楼 3楼 301教室</span>
+        </div>
+        <div class="flex items-center">
+          <i class="fas fa-users text-cyan-500 w-5"></i>
+          <span class="ml-3">小班教学，每班不超过30人</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 师资介绍 -->
+    <div class="bg-white mt-4 p-4">
+      <h2 class="text-lg font-semibold mb-3">师资介绍</h2>
+      <div class="flex items-center">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&h=60&fit=crop&crop=face" 
+             alt="老师头像" class="w-12 h-12 rounded-full">
+        <div class="ml-3">
+          <div class="font-semibold" id="teacherName"></div>
+          <div class="text-sm text-gray-500">5年教学经验 | 资深讲师</div>
+        </div>
+      </div>
+      <p class="text-sm text-gray-600 mt-3">
+        毕业于北京师范大学，拥有丰富的教学经验，善于激发学生学习兴趣，深受学生喜爱。
+      </p>
+    </div>
+
+    <!-- 学员评价 -->
+    <div class="bg-white mt-4 p-4">
+      <h2 class="text-lg font-semibold mb-3">学员评价</h2>
+      <div class="space-y-3">
+        <div class="border-l-4 border-cyan-500 pl-3">
+          <div class="flex items-center mb-1">
+            <div class="flex text-yellow-400">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+            <span class="ml-2 text-sm text-gray-500">张妈妈</span>
+          </div>
+          <p class="text-sm text-gray-600">孩子很喜欢这个课程，老师很有耐心！</p>
+        </div>
+        <div class="border-l-4 border-cyan-500 pl-3">
+          <div class="flex items-center mb-1">
+            <div class="flex text-yellow-400">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+            <span class="ml-2 text-sm text-gray-500">李爸爸</span>
+          </div>
+          <p class="text-sm text-gray-600">课程内容丰富，孩子进步很大。</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 底部报名按钮 -->
+  <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 safe-area-bottom">
+    <div class="max-w-md mx-auto">
+      <button id="enrollBtn" class="w-full bg-cyan-500 text-white py-3 rounded-lg font-semibold hover:bg-cyan-600 transition">
+        立即报名
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // 获取班级ID
+    const urlParams = new URLSearchParams(window.location.search);
+    const classId = parseInt(urlParams.get('id'));
+
+    // 模拟班级数据
+    const classData = {
+      1: {
+        name: "少儿创意美术班",
+        price: 1280,
+        duration: "12课时",
+        teacher: "李老师",
+        level: "6-12岁",
+        image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500&h=300&fit=crop",
+        description: "培养孩子的创造力和审美能力，通过绘画表达内心世界",
+        students: 24,
+        maxStudents: 30
+      },
+      2: {
+        name: "Python编程入门",
+        price: 1980,
+        duration: "16课时",
+        teacher: "张老师",
+        level: "10-16岁",
+        image: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=500&h=300&fit=crop",
+        description: "零基础学习Python编程，培养逻辑思维和解决问题的能力",
+        students: 18,
+        maxStudents: 25
+      },
+      3: {
+        name: "英语口语强化班",
+        price: 1580,
+        duration: "20课时",
+        teacher: "Emma老师",
+        level: "8-15岁",
+        image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=500&h=300&fit=crop",
+        description: "提升日常英语交流能力，培养国际化视野",
+        students: 22,
+        maxStudents: 25
+      },
+      4: {
+        name: "青少年篮球训练营",
+        price: 980,
+        duration: "10课时",
+        teacher: "王教练",
+        level: "8-16岁",
+        image: "https://images.unsplash.com/photo-1546519638-68e109498ffc?w=500&h=300&fit=crop",
+        description: "专业篮球技能训练，培养团队合作精神",
+        students: 28,
+        maxStudents: 30
+      }
+    };
+
+    // 填充班级信息
+    const cls = classData[classId];
+    if (cls) {
+      document.getElementById('classImage').src = cls.image;
+      document.getElementById('className').textContent = cls.name;
+      document.getElementById('classDescription').textContent = cls.description;
+      document.getElementById('classPrice').textContent = cls.price;
+      document.getElementById('classDuration').textContent = cls.duration;
+      document.getElementById('classTeacher').textContent = cls.teacher;
+      document.getElementById('classLevel').textContent = cls.level;
+      document.getElementById('teacherName').textContent = cls.teacher;
+      document.getElementById('remainingSeats').textContent = cls.maxStudents - cls.students;
+
+      // 检查是否已报名
+      const registrations = JSON.parse(localStorage.getItem('registrations') || '[]');
+      const isEnrolled = registrations.some(r => r.classId === classId);
+      
+      if (isEnrolled) {
+        document.getElementById('enrollBtn').textContent = '已报名';
+        document.getElementById('enrollBtn').disabled = true;
+        document.getElementById('enrollBtn').className = 'w-full bg-gray-300 text-gray-500 py-3 rounded-lg font-semibold cursor-not-allowed';
+      } else if (cls.students >= cls.maxStudents) {
+        document.getElementById('enrollBtn').textContent = '名额已满';
+        document.getElementById('enrollBtn').disabled = true;
+        document.getElementById('enrollBtn').className = 'w-full bg-gray-300 text-gray-500 py-3 rounded-lg font-semibold cursor-not-allowed';
+      }
+    }
+
+    // 报名按钮点击事件
+    document.getElementById('enrollBtn').addEventListener('click', () => {
+      location.href = `form.html?classId=${classId}`;
+    });
+  </script>
+</body>
+</html>

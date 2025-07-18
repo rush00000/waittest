@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>班级报名 - 首页</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #f8fafc;
+    }
+    .safe-area-bottom {
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    .class-card {
+      transition: all 0.3s ease;
+    }
+    .class-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- 顶部导航 -->
+  <header class="bg-white shadow-sm sticky top-0 z-10">
+    <div class="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
+      <h1 class="text-xl font-bold text-gray-800">班级报名</h1>
+      <button onclick="location.href='my-registrations.html'" class="text-gray-600">
+        <i class="fas fa-user-circle text-2xl"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- 搜索栏 -->
+  <div class="max-w-md mx-auto px-4 py-3 bg-white">
+    <div class="relative">
+      <input type="text" placeholder="搜索班级名称..." 
+             class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-cyan-500"
+             id="searchInput">
+      <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+    </div>
+  </div>
+
+  <!-- 分类筛选 -->
+  <div class="max-w-md mx-auto px-4 py-2 bg-white">
+    <div class="flex space-x-2 overflow-x-auto scrollbar-hide">
+      <button class="category-btn active px-4 py-2 rounded-full text-sm whitespace-nowrap bg-cyan-500 text-white" data-category="all">全部</button>
+      <button class="category-btn px-4 py-2 rounded-full text-sm whitespace-nowrap bg-gray-200 text-gray-700" data-category="art">艺术</button>
+      <button class="category-btn px-4 py-2 rounded-full text-sm whitespace-nowrap bg-gray-200 text-gray-700" data-category="science">科学</button>
+      <button class="category-btn px-4 py-2 rounded-full text-sm whitespace-nowrap bg-gray-200 text-gray-700" data-category="language">语言</button>
+      <button class="category-btn px-4 py-2 rounded-full text-sm whitespace-nowrap bg-gray-200 text-gray-700" data-category="sport">体育</button>
+    </div>
+  </div>
+
+  <!-- 班级列表 -->
+  <main class="max-w-md mx-auto px-4 py-4 pb-20">
+    <div id="classList" class="space-y-4">
+      <!-- 动态加载班级卡片 -->
+    </div>
+  </main>
+
+  <!-- 底部导航 -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 safe-area-bottom">
+    <div class="max-w-md mx-auto flex justify-around py-2">
+      <button class="flex flex-col items-center py-2 text-cyan-500">
+        <i class="fas fa-home text-xl"></i>
+        <span class="text-xs mt-1">首页</span>
+      </button>
+      <button onclick="location.href='my-registrations.html'" class="flex flex-col items-center py-2 text-gray-400">
+        <i class="fas fa-clipboard-list text-xl"></i>
+        <span class="text-xs mt-1">我的报名</span>
+      </button>
+    </div>
+  </nav>
+
+  <script>
+    // 模拟班级数据
+    const classes = [
+      {
+        id: 1,
+        name: "少儿创意美术班",
+        category: "art",
+        price: 1280,
+        duration: "12课时",
+        image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500&h=300&fit=crop",
+        description: "培养孩子的创造力和审美能力",
+        teacher: "李老师",
+        students: 24,
+        maxStudents: 30
+      },
+      {
+        id: 2,
+        name: "Python编程入门",
+        category: "science",
+        price: 1980,
+        duration: "16课时",
+        image: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=500&h=300&fit=crop",
+        description: "零基础学习Python编程",
+        teacher: "张老师",
+        students: 18,
+        maxStudents: 25
+      },
+      {
+        id: 3,
+        name: "英语口语强化班",
+        category: "language",
+        price: 1580,
+        duration: "20课时",
+        image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=500&h=300&fit=crop",
+        description: "提升日常英语交流能力",
+        teacher: "Emma老师",
+        students: 22,
+        maxStudents: 25
+      },
+      {
+        id: 4,
+        name: "青少年篮球训练营",
+        category: "sport",
+        price: 980,
+        duration: "10课时",
+        image: "https://images.unsplash.com/photo-1546519638-68e109498ffc?w=500&h=300&fit=crop",
+        description: "专业篮球技能训练",
+        teacher: "王教练",
+        students: 28,
+        maxStudents: 30
+      }
+    ];
+
+    // 渲染班级列表
+    function renderClasses(classArray) {
+      const container = document.getElementById('classList');
+      container.innerHTML = '';
+      
+      classArray.forEach(cls => {
+        const card = `
+          <div class="class-card bg-white rounded-lg shadow-sm overflow-hidden" onclick="goToDetail(${cls.id})">
+            <img src="${cls.image}" alt="${cls.name}" class="w-full h-40 object-cover">
+            <div class="p-4">
+              <div class="flex justify-between items-start mb-2">
+                <h3 class="font-semibold text-lg text-gray-800">${cls.name}</h3>
+                <span class="text-orange-500 font-bold">¥${cls.price}</span>
+              </div>
+              <p class="text-gray-600 text-sm mb-3">${cls.description}</p>
+              <div class="flex items-center justify-between text-sm text-gray-500">
+                <span><i class="fas fa-clock mr-1"></i>${cls.duration}</span>
+                <span><i class="fas fa-user mr-1"></i>${cls.teacher}</span>
+                <span class="${cls.students >= cls.maxStudents ? 'text-red-500' : ''}">
+                  ${cls.students}/${cls.maxStudents}人
+                </span>
+              </div>
+            </div>
+          </div>
+        `;
+        container.innerHTML += card;
+      });
+    }
+
+    // 搜索功能
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      const filtered = classes.filter(cls => 
+        cls.name.toLowerCase().includes(searchTerm) || 
+        cls.description.toLowerCase().includes(searchTerm)
+      );
+      renderClasses(filtered);
+    });
+
+    // 分类筛选
+    document.querySelectorAll('.category-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('.category-btn').forEach(b => {
+          b.className = 'category-btn px-4 py-2 rounded-full text-sm whitespace-nowrap bg-gray-200 text-gray-700';
+        });
+        e.target.className = 'category-btn active px-4 py-2 rounded-full text-sm whitespace-nowrap bg-cyan-500 text-white';
+        
+        const category = e.target.dataset.category;
+        const filtered = category === 'all' ? classes : classes.filter(cls => cls.category === category);
+        renderClasses(filtered);
+      });
+    });
+
+    // 跳转到详情页
+    function goToDetail(id) {
+      location.href = `detail.html?id=${id}`;
+    }
+
+    // 初始化
+    renderClasses(classes);
+  </script>
+</body>
+</html>

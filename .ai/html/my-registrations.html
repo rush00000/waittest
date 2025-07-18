@@ -1,0 +1,202 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的报名</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #f8fafc;
+    }
+    .safe-area-bottom {
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    .status-badge {
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+    }
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 50vh;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- 顶部导航 -->
+  <header class="bg-white shadow-sm sticky top-0 z-10">
+    <div class="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
+      <h1 class="text-xl font-bold text-gray-800">我的报名</h1>
+      <button onclick="location.href='index.html'" class="text-gray-600">
+        <i class="fas fa-home text-2xl"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- 主要内容 -->
+  <main class="max-w-md mx-auto px-4 py-4 pb-20">
+    <div id="registrationList">
+      <!-- 动态加载报名记录 -->
+    </div>
+
+    <!-- 空状态 -->
+    <div id="emptyState" class="empty-state hidden">
+      <img src="https://images.unsplash.com/photo-1586769852044-692d6e3703f2?w=200&h=200&fit=crop" 
+           alt="空状态" class="w-32 h-32 opacity-50 mb-4">
+      <p class="text-gray-500 text-center">暂无报名记录</p>
+      <button onclick="location.href='index.html'" 
+              class="mt-4 px-6 py-2 bg-cyan-500 text-white rounded-lg">
+        去报名
+      </button>
+    </div>
+  </main>
+
+  <!-- 底部导航 -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 safe-area-bottom">
+    <div class="max-w-md mx-auto flex justify-around py-2">
+      <button onclick="location.href='index.html'" class="flex flex-col items-center py-2 text-gray-400">
+        <i class="fas fa-home text-xl"></i>
+        <span class="text-xs mt-1">首页</span>
+      </button>
+      <button class="flex flex-col items-center py-2 text-cyan-500">
+        <i class="fas fa-clipboard-list text-xl"></i>
+        <span class="text-xs mt-1">我的报名</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- 取消报名确认弹窗 -->
+  <div id="cancelModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+    <div class="bg-white rounded-lg p-6 max-w-sm mx-4">
+      <h3 class="text-lg font-semibold mb-2">确认取消报名？</h3>
+      <p class="text-gray-600 text-sm mb-4">取消后需要重新报名，确定要取消吗？</p>
+      <div class="flex space-x-3">
+        <button onclick="closeCancelModal()" 
+                class="flex-1 py-2 border border-gray-300 rounded-lg">取消</button>
+        <button onclick="confirmCancel()" 
+                class="flex-1 py-2 bg-red-500 text-white rounded-lg">确认取消</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let cancelRegistrationId = null;
+
+    // 渲染报名记录
+    function renderRegistrations() {
+      const registrations = JSON.parse(localStorage.getItem('registrations') || '[]');
+      const container = document.getElementById('registrationList');
+      const emptyState = document.getElementById('emptyState');
+
+      if (registrations.length === 0) {
+        container.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      container.innerHTML = '';
+
+      registrations.forEach(reg => {
+        const statusColors = {
+          '待付款': 'bg-orange-100 text-orange-800',
+          '已付款': 'bg-green-100 text-green-800',
+          '已取消': 'bg-gray-100 text-gray-800'
+        };
+
+        const card = `
+          <div class="bg-white rounded-lg p-4 mb-4 shadow-sm">
+            <div class="flex justify-between items-start mb-3">
+              <div>
+                <h3 class="font-semibold text-gray-800">${reg.className}</h3>
+                <p class="text-sm text-gray-500 mt-1">学生：${reg.studentName}</p>
+              </div>
+              <span class="status-badge ${statusColors[reg.status]}">${reg.status}</span>
+            </div>
+            
+            <div class="space-y-2 text-sm text-gray-600">
+              <div class="flex justify-between">
+                <span>家长姓名</span>
+                <span>${reg.parentName}</span>
+              </div>
+              <div class="flex justify-between">
+                <span>联系电话</span>
+                <span>${reg.phone}</span>
+              </div>
+              <div class="flex justify-between">
+                <span>报名时间</span>
+                <span>${new Date(reg.createTime).toLocaleDateString()}</span>
+              </div>
+              <div class="flex justify-between">
+                <span>课程费用</span>
+                <span class="font-semibold text-orange-500">¥${reg.price}</span>
+              </div>
+            </div>
+
+            ${reg.status === '待付款' ? `
+              <div class="flex space-x-2 mt-4 pt-3 border-t">
+                <button onclick="payNow(${reg.id})" 
+                        class="flex-1 py-2 bg-cyan-500 text-white rounded-lg text-sm">
+                  立即支付
+                </button>
+                <button onclick="showCancelModal(${reg.id})" 
+                        class="flex-1 py-2 border border-gray-300 rounded-lg text-sm">
+                  取消报名
+                </button>
+              </div>
+            ` : ''}
+          </div>
+        `;
+        container.innerHTML += card;
+      });
+    }
+
+    // 立即支付
+    function payNow(registrationId) {
+      const registrations = JSON.parse(localStorage.getItem('registrations') || '[]');
+      const regIndex = registrations.findIndex(r => r.id === registrationId);
+      
+      if (regIndex !== -1) {
+        registrations[regIndex].status = '已付款';
+        localStorage.setItem('registrations', JSON.stringify(registrations));
+        renderRegistrations();
+        alert('支付成功！');
+      }
+    }
+
+    // 显示取消确认弹窗
+    function showCancelModal(registrationId) {
+      cancelRegistrationId = registrationId;
+      document.getElementById('cancelModal').classList.remove('hidden');
+    }
+
+    // 关闭取消确认弹窗
+    function closeCancelModal() {
+      document.getElementById('cancelModal').classList.add('hidden');
+      cancelRegistrationId = null;
+    }
+
+    // 确认取消报名
+    function confirmCancel() {
+      if (cancelRegistrationId) {
+        let registrations = JSON.parse(localStorage.getItem('registrations') || '[]');
+        registrations = registrations.filter(r => r.id !== cancelRegistrationId);
+        localStorage.setItem('registrations', JSON.stringify(registrations));
+        renderRegistrations();
+        closeCancelModal();
+        alert('报名已取消');
+      }
+    }
+
+    // 初始化
+    renderRegistrations();
+  </script>
+</body>
+</html>

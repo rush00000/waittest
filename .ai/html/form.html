@@ -1,0 +1,319 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>填写报名信息</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #f8fafc;
+    }
+    .form-step {
+      display: none;
+    }
+    .form-step.active {
+      display: block;
+    }
+    .progress-bar {
+      transition: width 0.3s ease;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- 顶部导航 -->
+  <header class="bg-white shadow-sm sticky top-0 z-10">
+    <div class="max-w-md mx-auto px-4 py-3 flex items-center">
+      <button onclick="history.back()" class="mr-4">
+        <i class="fas fa-arrow-left text-xl"></i>
+      </button>
+      <h1 class="text-lg font-semibold">填写报名信息</h1>
+    </div>
+  </header>
+
+  <!-- 进度条 -->
+  <div class="max-w-md mx-auto px-4 py-4">
+    <div class="bg-gray-200 rounded-full h-2">
+      <div id="progressBar" class="bg-cyan-500 h-2 rounded-full progress-bar" style="width: 33%"></div>
+    </div>
+    <div class="flex justify-between text-sm text-gray-500 mt-2">
+      <span>基本信息</span>
+      <span>家长信息</span>
+      <span>确认支付</span>
+    </div>
+  </div>
+
+  <main class="max-w-md mx-auto px-4 pb-32">
+    <form id="enrollmentForm">
+      <!-- 步骤1：学生信息 -->
+      <div class="form-step active bg-white rounded-lg p-6" id="step1">
+        <h2 class="text-lg font-semibold mb-4">学生信息</h2>
+        
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-2">学生姓名 *</label>
+          <input type="text" name="studentName" required 
+                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-cyan-500">
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-2">性别 *</label>
+          <div class="flex space-x-4">
+            <label class="flex items-center">
+              <input type="radio" name="gender" value="男" required class="mr-2">
+              <span>男</span>
+            </label>
+            <label class="flex items-center">
+              <input type="radio" name="gender" value="女" required class="mr-2">
+              <span>女</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-2">出生日期 *</label>
+          <input type="date" name="birthDate" required 
+                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-cyan-500">
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-2">就读学校</label>
+          <input type="text" name="school" 
+                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-cyan-500">
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-2">年级</label>
+          <select name="grade" 
+                  class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-cyan-500">
+            <option value="">请选择年级</option>
+            <option value="一年级">一年级</option>
+            <option value="二年级">二年级</option>
+            <option value="三年级">三年级</option>
+            <option value="四年级">四年级</option>
+            <option value="五年级">五年级</option>
+            <option value="六年级">六年级</option>
+            <option value="初一">初一</option>
+            <option value="初二">初二</option>
+            <option value="初三">初三</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 步骤2：家长信息 -->
+      <div class="form-step bg-white rounded-lg p-6" id="step2">
+        <h2 class="text-lg font-semibold mb-4">家长信息</h2>
+        
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-2">家长姓名 *</label>
+          <input type="text" name="parentName" required 
+                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-cyan-500">
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-2">与学生关系 *</label>
+          <select name="relationship" required 
+                  class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-cyan-500">
+            <option value="">请选择关系</option>
+            <option value="父亲">父亲</option>
+            <option value="母亲">母亲</option>
+            <option value="爷爷">爷爷</option>
+            <option value="奶奶">奶奶</option>
+            <option value="外公">外公</option>
+            <option value="外婆">外婆</option>
+            <option value="其他">其他</option>
+          </select>
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-2">联系电话 *</label>
+          <input type="tel" name="phone" required pattern="1[3-9]\d{9}"
+                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-cyan-500"
+                 placeholder="请输入11位手机号">
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-2">微信号</label>
+          <input type="text" name="wechat" 
+                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-cyan-500">
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-2">备注信息</label>
+          <textarea name="notes" rows="3" 
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-cyan-500"
+                    placeholder="如有特殊需求请在此说明"></textarea>
+        </div>
+      </div>
+
+      <!-- 步骤3：确认支付 -->
+      <div class="form-step bg-white rounded-lg p-6" id="step3">
+        <h2 class="text-lg font-semibold mb-4">确认订单</h2>
+        
+        <div class="bg-gray-50 rounded-lg p-4 mb-4">
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-gray-600">课程名称</span>
+            <span id="confirmClassName" class="font-medium"></span>
+          </div>
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-gray-600">学生姓名</span>
+            <span id="confirmStudentName" class="font-medium"></span>
+          </div>
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-gray-600">家长姓名</span>
+            <span id="confirmParentName" class="font-medium"></span>
+          </div>
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-gray-600">联系电话</span>
+            <span id="confirmPhone" class="font-medium"></span>
+          </div>
+          <div class="border-t pt-2 mt-2">
+            <div class="flex justify-between items-center">
+              <span class="text-lg font-semibold">总计</span>
+              <span id="confirmPrice" class="text-2xl font-bold text-orange-500"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label class="flex items-center">
+            <input type="checkbox" id="agreeTerms" required class="mr-2">
+            <span class="text-sm">我已阅读并同意<a href="#" class="text-cyan-500">《报名协议》</a></span>
+          </label>
+        </div>
+      </div>
+    </form>
+  </main>
+
+  <!-- 底部按钮 -->
+  <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4">
+    <div class="max-w-md mx-auto flex space-x-3">
+      <button id="prevBtn" onclick="changeStep(-1)" 
+              class="flex-1 py-3 border border-gray-300 rounded-lg text-gray-700 hidden">
+        上一步
+      </button>
+      <button id="nextBtn" onclick="changeStep(1)" 
+              class="flex-1 py-3 bg-cyan-500 text-white rounded-lg font-semibold">
+        下一步
+      </button>
+    </div>
+  </div>
+
+  <script>
+    let currentStep = 1;
+    const totalSteps = 3;
+
+    // 获取班级信息
+    const urlParams = new URLSearchParams(window.location.search);
+    const classId = parseInt(urlParams.get('classId'));
+    
+    const classData = {
+      1: { name: "少儿创意美术班", price: 1280 },
+      2: { name: "Python编程入门", price: 1980 },
+      3: { name: "英语口语强化班", price: 1580 },
+      4: { name: "青少年篮球训练营", price: 980 }
+    };
+
+    const cls = classData[classId];
+    if (cls) {
+      document.getElementById('confirmClassName').textContent = cls.name;
+      document.getElementById('confirmPrice').textContent = `¥${cls.price}`;
+    }
+
+    function changeStep(direction) {
+      const form = document.getElementById('enrollmentForm');
+      
+      // 验证当前步骤
+      if (direction > 0 && !validateStep(currentStep)) {
+        return;
+      }
+
+      // 更新步骤
+      document.getElementById(`step${currentStep}`).classList.remove('active');
+      currentStep += direction;
+      document.getElementById(`step${currentStep}`).classList.add('active');
+
+      // 更新进度条
+      const progress = (currentStep / totalSteps) * 100;
+      document.getElementById('progressBar').style.width = `${progress}%`;
+
+      // 更新按钮
+      document.getElementById('prevBtn').classList.toggle('hidden', currentStep === 1);
+      
+      if (currentStep === totalSteps) {
+        updateConfirmation();
+        document.getElementById('nextBtn').textContent = '确认支付';
+        document.getElementById('nextBtn').onclick = submitForm;
+      } else {
+        document.getElementById('nextBtn').textContent = '下一步';
+        document.getElementById('nextBtn').onclick = () => changeStep(1);
+      }
+    }
+
+    function validateStep(step) {
+      const stepElement = document.getElementById(`step${step}`);
+      const inputs = stepElement.querySelectorAll('[required]');
+      
+      for (let input of inputs) {
+        if (!input.value.trim()) {
+          alert('请填写所有必填项');
+          input.focus();
+          return false;
+        }
+        
+        if (input.name === 'phone' && !/^1[3-9]\d{9}$/.test(input.value)) {
+          alert('请输入正确的手机号码');
+          input.focus();
+          return false;
+        }
+      }
+      
+      return true;
+    }
+
+    function updateConfirmation() {
+      const formData = new FormData(document.getElementById('enrollmentForm'));
+      document.getElementById('confirmStudentName').textContent = formData.get('studentName');
+      document.getElementById('confirmParentName').textContent = formData.get('parentName');
+      document.getElementById('confirmPhone').textContent = formData.get('phone');
+    }
+
+    function submitForm() {
+      if (!document.getElementById('agreeTerms').checked) {
+        alert('请阅读并同意报名协议');
+        return;
+      }
+
+      const formData = new FormData(document.getElementById('enrollmentForm'));
+      const registration = {
+        id: Date.now(),
+        classId: classId,
+        className: cls.name,
+        price: cls.price,
+        studentName: formData.get('studentName'),
+        gender: formData.get('gender'),
+        birthDate: formData.get('birthDate'),
+        school: formData.get('school'),
+        grade: formData.get('grade'),
+        parentName: formData.get('parentName'),
+        relationship: formData.get('relationship'),
+        phone: formData.get('phone'),
+        wechat: formData.get('wechat'),
+        notes: formData.get('notes'),
+        status: '待付款',
+        createTime: new Date().toISOString()
+      };
+
+      // 保存报名信息
+      const registrations = JSON.parse(localStorage.getItem('registrations') || '[]');
+      registrations.push(registration);
+      localStorage.setItem('registrations', JSON.stringify(registrations));
+
+      // 跳转到我的报名页面
+      location.href = 'my-registrations.html';
+    }
+  </script>
+</body>
+</html>

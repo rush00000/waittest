@@ -1,0 +1,79 @@
+
+{
+  "name": "registration_record",
+  "title": "报名记录",
+  "schemas": [
+    {
+      "name": "classId",
+      "title": "课程ID",
+      "type": "String"
+    },
+    {
+      "name": "className",
+      "title": "课程名称",
+      "type": "String"
+    },
+    {
+      "name": "price",
+      "title": "课程价格",
+      "type": "Number"
+    },
+    {
+      "name": "studentName",
+      "title": "学生姓名",
+      "type": "String"
+    },
+    {
+      "name": "gender",
+      "title": "性别",
+      "type": "String"
+    },
+    {
+      "name": "birthDate",
+      "title": "出生日期",
+      "type": "Date",
+      "format": "date"
+    },
+    {
+      "name": "school",
+      "title": "就读学校",
+      "type": "String"
+    },
+    {
+      "name": "grade",
+      "title": "年级",
+      "type": "String"
+    },
+    {
+      "name": "parentName",
+      "title": "家长姓名",
+      "type": "String"
+    },
+    {
+      "name": "relationship",
+      "title": "与学生关系",
+      "type": "String"
+    },
+    {
+      "name": "phone",
+      "title": "联系电话",
+      "type": "String"
+    },
+    {
+      "name": "wechat",
+      "title": "微信号",
+      "type": "String"
+    },
+    {
+      "name": "notes",
+      "title": "备注信息",
+      "type": "MultiLineString"
+    },
+    {
+      "name": "status",
+      "title": "报名状态",
+      "type": "String"
+    }
+  ]
+}
+  
