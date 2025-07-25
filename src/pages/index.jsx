@@ -1,7 +1,6 @@
 // @ts-ignore;
 import React, { useState, useEffect } from 'react';
 
-import { ClassCard } from '@/components/ClassCard';
 import { BottomNav } from '@/components/BottomNav';
 export default function IndexPage(props) {
   const [classes, setClasses] = useState([]);
@@ -111,15 +110,33 @@ export default function IndexPage(props) {
         </div>
       </div>
 
-      {/* 班级列表 */}
+      {/* 班级列表 - 改为列表形式 */}
       <main className="max-w-md mx-auto px-4 py-4 pb-20">
         {loading ? <div className="flex items-center justify-center h-64">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-500"></div>
           </div> : filteredClasses.length === 0 ? <div className="flex flex-col items-center justify-center min-h-96">
             <img src="https://images.unsplash.com/photo-1586769852044-692d6e3703f2?w=200&h=200&fit=crop" alt="空状态" className="w-32 h-32 opacity-50 mb-4" />
             <p className="text-gray-500 text-center">暂无相关课程</p>
-          </div> : <div className="space-y-4">
-            {filteredClasses.map(classItem => <ClassCard key={classItem._id} classItem={classItem} onClick={handleClassClick} />)}
+          </div> : <div className="space-y-3">
+            {filteredClasses.map(classItem => <div key={classItem._id} className="bg-white rounded-lg shadow-sm overflow-hidden cursor-pointer hover:shadow-md transition-shadow" onClick={() => handleClassClick(classItem._id)}>
+                <div className="flex">
+                  <img src={classItem.image} alt={classItem.name} className="w-24 h-24 object-cover" />
+                  <div className="flex-1 p-3">
+                    <div className="flex justify-between items-start">
+                      <h3 className="font-semibold text-base text-gray-800 flex-1">{classItem.name}</h3>
+                      <span className="text-orange-500 font-bold text-sm ml-2">¥{classItem.price}</span>
+                    </div>
+                    <p className="text-gray-600 text-xs mt-1 line-clamp-2">{classItem.description}</p>
+                    <div className="flex items-center justify-between mt-2 text-xs text-gray-500">
+                      <span><i className="fas fa-clock mr-1"></i>{classItem.duration}</span>
+                      <span><i className="fas fa-user mr-1"></i>{classItem.teacher}</span>
+                      <span className={classItem.students >= classItem.maxStudents ? 'text-red-500' : ''}>
+                        {classItem.students}/{classItem.maxStudents}人
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>)}
           </div>}
       </main>
 
