@@ -101,10 +101,10 @@ export default function DetailPage(props) {
   }
   const remainingSeats = classData.maxStudents - classData.students;
   return <div className="min-h-screen bg-gray-50">
-      {/* 顶部导航 */}
+      {/* 顶部导航 - 已添加返回按钮 */}
       <header className="bg-white shadow-sm sticky top-0 z-10">
         <div className="max-w-md mx-auto px-4 py-3 flex items-center">
-          <button onClick={handleBack} className="mr-4">
+          <button onClick={handleBack} className="mr-4 p-2 rounded-full hover:bg-gray-100 transition-colors">
             <i className="fas fa-arrow-left text-xl"></i>
           </button>
           <h1 className="text-lg font-semibold">班级详情</h1>
